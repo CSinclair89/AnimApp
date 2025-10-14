@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+    <head>
+        <link rel = "stylesheet" href = "./style.css" type  ="text/css">
+    </head>
+    <body>
+
+        <!-- NAVIGATION -->
+
+        <nav>
+            <ul>
+                <li>Welcome</li>
+                <li>
+                    <button class = "new-post" id = "newPost">New post</button>
+                </li>
+                <li>Sign In</li>
+                
+            </ul>
+
+        </nav>
+
+        <!-- GALLERY -->
+
+        <main>
+            <div class="gallery" id = "gallery">
+                <img src = "./animations/birthday.gif" 
+                    alt = "Gallery image" 
+                    data-author = "@username" 
+                    data-desc = "Birthday celebration animation"
+                    data-tags = "#birthday, #fun, #party">
+                <img src = "./animations/bouncing_ball.gif" alt = "Gallery image">
+                <img src = "./animations/dna.gif" alt = "Gallery image">
+            </div>
+        </main>
+
+        <!-- Upload Overlay -->
+
+        <div class = "uploadOverlay" id = "uploadOverlay">
+            <div class = "uploadOverlay-content">
+
+                <!-- Close Button -->
+                <span class = "upload-close-btn" id = "uploadCloseBtn">&times;</span>
+                
+                <!-- Upload Button -->
+                <input type = "file" id = "fileInput" accept = "image/gif">
+                <button class = "upload-btn" id = "uploadBtn">Choose GIF</button>
+                <br>
+
+                <!-- Image Preview -->
+                <div id = "uploadPreview"></div>
+                <br>
+
+                <!-- Description -->
+                <label for = "uploadDescription">Description</label>
+                
+                <textarea id = "uploadDescription" rows = "4" colrs = "50"></textarea>
+                <br>
+
+                <!-- Tags / Keywords -->
+                <label for = "uploadTags">Tags</label>
+                
+                <input type = "text" id = "uploadTags">
+                <br><br>
+                
+                <!-- Submit Button -->
+                <button class = "submit-btn" id = "submitBtn">Submit</button>
+            </div>
+        </div>
+
+        <!-- Gallery Overlay -->
+
+        <div class = "galleryOverlay" id = "galleryOverlay">
+            <div class = "galleryOverlay-content">
+
+                <!-- Close Button -->
+                <span class = "gallery-close-btn" id = "galleryCloseBtn">&times;</span>
+
+                <!-- Gallery Image -->
+                <img id = "galleryOverlayImg" src = "" alt = "Expanded image">
+
+                <!-- Gallery Image Info -->
+                <div class = "galleryOverlay-info">
+                    <h2 id = "imgAuthor">@username</h2>
+                    <p id = "imgDesc">Sample description of the image...</p>
+                    <div id = "imgTags">
+                        <span class = "tag">#blah1</span>
+                        <span class = "tag">#blah2</span>
+                        <span class = "tag">#blah3</span>
+                    </div>
+                </div>
+
+            </div>
+            
+        </div>
+
+        <script type = "text/javascript" src = "app.js"></script>
+    </body>
+</html>
