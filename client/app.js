@@ -175,3 +175,36 @@ galleryOverlay.addEventListener("mouseup", (e) => {
 document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") galleryOverlay.style.display = "none";
 });
+
+/*
+ * JWT Credential
+ */
+async function handleCredentialResponse(response) {
+    console.log("Google raw response:", response);
+
+    // Send credential to backend
+    const serverResponse = await fetch("http://localhost:3000/auth/google", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ credential: response.credential })
+    });
+
+    const data = await serverResponse.json().catch(err => {
+        console.error("JSON parse error:", err);
+        return null;
+    });
+
+    console.log("Auth response from backend:", data);
+
+    if (data && data.token) {
+        
+        // Save JWT in localStorage
+        localStorage.setItem("authToken", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+
+        // Optional: update UI to show user is logged in
+        alert(`Welcome ${data.user.name}! You are now logged in.`);
+    } else {
+        alert("Authentication failed.");
+    }
+}

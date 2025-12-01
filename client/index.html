@@ -13,6 +13,24 @@
                     <button class = "new-post" id = "newPost">New post</button>
                 </li>
                 <li>Sign In</li>
+
+                <div id="g_id_onload"
+                    data-client_id="369873749950-tcuicc0glg37lth6d31h2ofoo6ej1i7t.apps.googleusercontent.com"
+                    data-callback="handleCredentialResponse"
+                    data-login_uri="http://localhost:3000/auth/google"
+                    data-auto_prompt="false">
+                </div>
+
+                <div class="g_id_signin"
+                    data-type="standard"
+                    data-size="large"
+                    data-theme="outline"
+                    data-text="sign_in_with"
+                    data-shape="rectangular"
+                    data-logo_alignment="left">
+                </div>
+
+            
                 
             </ul>
 
@@ -91,7 +109,7 @@
             </div>
             
         </div>
-
+        <script src="https://accounts.google.com/gsi/client" async defer></script>
         <script type = "text/javascript" src = "app.js"></script>
     </body>
 </html>
