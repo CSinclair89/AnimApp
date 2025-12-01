@@ -7,47 +7,50 @@
         <!-- NAVIGATION -->
 
         <nav>
-            <ul>
-                <li>Welcome</li>
-                <li>
-                    <button class = "new-post" id = "newPost">New post</button>
-                </li>
-                <li>Sign In</li>
+            <div class = "nav-container">
 
-                <div id="g_id_onload"
-                    data-client_id="369873749950-tcuicc0glg37lth6d31h2ofoo6ej1i7t.apps.googleusercontent.com"
-                    data-callback="handleCredentialResponse"
-                    data-login_uri="http://localhost:3000/auth/google"
-                    data-auto_prompt="false">
+                <div class = "nav-top">
+                    <span class = "nav-left">Animation Gallery</span>
+
+                    <div class = "nav-right">
+                        
+                        <img src = "img/darkmode.png" class = "nav-icon" id = "darkMode" alt = "Light/Dark Mode">
+                        <img src = "img/upload.png" class = "nav-icon" id = "newPost" alt = "Upload a GIF">
+                        <!-- <img src = "img/profile.png" class = "nav-icon"> -->
+
+                        <div id="g_id_onload"
+                            data-client_id = "369873749950-tcuicc0glg37lth6d31h2ofoo6ej1i7t.apps.googleusercontent.com"
+                            data-callback = "handleCredentialResponse"
+                            data-login_uri = "http://localhost:3000/auth/google"
+                            data-auto_prompt = "false">
+                        </div>
+                        <div class="g_id_signin"
+                        data-type="standard"
+                        data-size="large"
+                        data-theme="outline"
+                        data-text="sign_in_with"
+                        data-shape="rectangular"
+                        data-logo_alignment="left">
+                    </div>
+                    </div>
+
+                    
+
+                    
+
                 </div>
 
-                <div class="g_id_signin"
-                    data-type="standard"
-                    data-size="large"
-                    data-theme="outline"
-                    data-text="sign_in_with"
-                    data-shape="rectangular"
-                    data-logo_alignment="left">
+                <div class="nav-bottom">
+                    <input type = "text" id = "searchInput" placeholder="Search GIFs by tag...">
                 </div>
 
-            
-                
-            </ul>
-
+            </div>
         </nav>
 
         <!-- GALLERY -->
 
         <main>
-            <div class="gallery" id = "gallery">
-                <img src = "./animations/birthday.gif" 
-                    alt = "Gallery image" 
-                    data-author = "@username" 
-                    data-desc = "Birthday celebration animation"
-                    data-tags = "#birthday, #fun, #party">
-                <img src = "./animations/bouncing_ball.gif" alt = "Gallery image">
-                <img src = "./animations/dna.gif" alt = "Gallery image">
-            </div>
+            <div class="gallery" id = "gallery"></div>
         </main>
 
         <!-- Upload Overlay -->

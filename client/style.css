@@ -1,6 +1,14 @@
+@font-face {
+	font-family: Bahnschrift;
+	src: url(../font/Bahnschrift.ttf);
+	src: url(../font/Bahnschrift.otf);
+	src: url(../font/Bahnschrift.woff);
+}
+
 body {
     background-color: gray;
     margin: 0;
+    font-family: bahnschrift;
 }
 
 nav {
@@ -8,31 +16,82 @@ nav {
     top: 0;
     left: 0;
     right: 0;
-    height: 80px;
-    display: flex;
-    align-items: center;
     background-color: rgb(45, 45, 45);
     color: white;
-    font: 24px Arial, sans-serif;
-    
+    font: 35px Arial, sans-serif;
     z-index: 100;
+    font-family: bahnschrift;
+    display: flex;
+    justify-content: center; /* centers the inner container */
+    padding: 15px 0;
 }
 
-nav ul {
+.nav-container {
+    width: 1000px;  /* matches gallery width */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Top row */
+.nav-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    list-style: none;
-    margin: 0;
-    padding: 0 50px 0 50px;
     width: 100%;
 }
 
-nav li {
-    text-align: center;
+.nav-right {
+    display: flex;
+    gap: 16px;
+    align-items: center;
 }
 
-main { padding-top: 100px; }
+.nav-icon {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+}
+
+#g_id_onload { display: none; }
+
+/*
+ * Search row
+ */
+.nav-bottom {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 12px 12px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+main { padding-top: 140px; }
+
+/*
+ * Search bar
+ */
+
+/* .search-bar {
+    text-align: center;
+    margin: 20px 0;
+} */
+
+#searchInput {
+    margin: auto;
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
 
 /*
  * Gallery UI
