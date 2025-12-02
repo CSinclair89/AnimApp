@@ -11,7 +11,10 @@ const postRoutes = require("./routes/posts");
 const app = express();
 
 // Middleware
-app.use(cors());
+const cors = require("cors");
+app.use(cors({
+  origin: "https://CSinclair89.github.io"
+}));
 app.use(express.json({ limit: "5mb" }));
 
 
