@@ -1,0 +1,147 @@
+/*
+ * Tablet (1024px)
+ */
+
+@media (max-width: 1024px) {
+
+    /* Navigation */
+
+    nav { padding: 12px 0; }
+
+    .nav-container { width: 90%; }
+
+    .nav-top {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .nav-left {
+        font-size: 26px;
+    }
+
+    .nav-icon {
+        width: 34px;
+        height: 34px;
+    }
+
+    #searchInput {
+        font-size: 15px;
+        padding: 10px;
+    }
+
+    /* Gallery */
+
+    .gallery {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 10px;
+        padding: 15px;
+        width: 90%;
+    }
+
+    .gallery img {
+        border-radius: 6px;
+    }
+}
+
+/*
+ * Mobile (768px)
+ */
+
+@media (max-width: 768px) {
+
+    /* Top Navigation */
+
+    nav { padding: 10px 0; }
+
+    .nav-container { width: 95%; }
+
+    .nav-top {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .nav-left {
+        font-size: 22px;
+        text-align: center;
+    }
+
+    .nav-right { gap: 12px; }
+
+    .nav-icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    /* Search Bar */
+
+    .nav-bottom { width: 100%; }
+
+    #searchInput {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    /* Gallery */
+
+    main {
+        padding-top: 180px;
+    }
+
+    .gallery {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 8px;
+        padding: 10px;
+        width: 95%;
+    }
+
+    .gallery img {
+        border-radius: 5px;
+    }
+
+    /* Overlays */
+    
+    .uploadOverlay-content,
+    .galleryOverlay-content {
+        max-width: 95%;
+        padding: 15px;
+    }
+
+    .galleryOverlay img {
+        max-height: 55vh;
+    }
+
+    .galleryOverlay-info h2 {
+        font-size: 18px;
+    }
+
+    .galleryOverlay-info .tag {
+        font-size: 12px;
+        padding: 3px 6px;
+    }
+}
+
+/* ===========================
+   SMALL MOBILE (≤ 480px)
+   Optional (but helpful)
+   ===========================*/
+@media (max-width: 480px) {
+
+    .nav-left {
+        font-size: 20px;
+    }
+
+    .nav-icon {
+        width: 26px;
+        height: 26px;
+    }
+
+    .gallery {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    #searchInput {
+        font-size: 13px;
+    }
+}
