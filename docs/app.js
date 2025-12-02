@@ -1,3 +1,5 @@
+const API_URL = "https://animapp-zch5.onrender.com";
+
 /*************************/
 /*        NAV BAR        */
 /*************************/
@@ -93,7 +95,7 @@ submitBtn.addEventListener("click", async () => {
             // POST to backend
             try {
                 const token = localStorage.getItem("authToken");
-                const res = await fetch("http://localhost:3000/posts/create", {
+                const res = await fetch(`${API_URL}/posts/create`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -138,7 +140,7 @@ async function handleCredentialResponse(response) {
     console.log("Google raw response:", response);
 
     // Only send credential to backend for authentication once
-    const serverResponse = await fetch("http://localhost:3000/auth/google", {
+    const serverResponse = await fetch(`${API_URL}/auth/google`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ credential: response.credential })
@@ -204,7 +206,7 @@ searchInput.addEventListener("input", () => {
 
 async function loadGallery() {
     try {
-        const response = await fetch("http://localhost:3000/posts/feed");
+        const response = await fetch(`${API_URL}/posts/feed`);
         const posts = await response.json();
 
         // Clear gallery
@@ -249,7 +251,7 @@ async function loadGallery() {
                 const liked = heart.classList.contains("liked");
                 const endpoint = liked ? "unlike" : "like";
 
-                const res = await fetch(`http://localhost:3000/posts/${post._id}/${endpoint}`, {
+                const res = await fetch(`${API_URL}/posts/${post._id}/${endpoint}`, {
                     method: "POST",
                     headers: { "Authorization": `Bearer ${token}` }
                 });
@@ -281,7 +283,7 @@ async function loadGallery() {
                     if (!token) return alert("You must be logged in to delete posts.");
 
                     try {
-                        const res = await fetch(`http://localhost:3000/posts/${post._id}`, {
+                        const res = await fetch(`${API_URL}/posts/${post._id}`, {
                             method: "DELETE",
                             headers: { "Authorization": `Bearer ${token}` }
                         });
