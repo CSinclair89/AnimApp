@@ -98,11 +98,6 @@ main { padding-top: 140px; }
  * Search bar
  */
 
-/* .search-bar {
-    text-align: center;
-    margin: 20px 0;
-} */
-
 #searchInput {
     margin: auto;
     width: 100%;
@@ -136,6 +131,53 @@ main { padding-top: 140px; }
 
 .gallery img:hover {
     transform: scale(1.03);
+}
+
+/*
+ * Image Options
+ */
+
+.post-item {
+    position: relative;
+    display: inline-block;
+    margin: 10px;
+}
+
+.delete-btn {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background: rgba(255, 0, 0, 0.8);
+    color: white;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    z-index: 10;
+}
+.delete-btn:hover {
+    background: rgba(255, 0, 0, 1);
+}
+
+.heart-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 24px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.heart-btn.liked {
+    color: red;
+}
+
+.likes-count {
+    position: absolute;
+    top: 40px;
+    right: 12px;
+    color: white;
+    text-shadow: 0 0 3px black;
 }
 
 /*

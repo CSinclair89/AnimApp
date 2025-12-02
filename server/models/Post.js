@@ -4,7 +4,8 @@ const PostSchema = new mongoose.Schema({
     author: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     imageUrl: { type: String, required: true},
     description: { type: String, default: "" },
-    tags: [String]
+    tags: [String],
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }]
 }, { timestamps: true });
 
 module.exports = mongoose.model("Post", PostSchema);

@@ -19,7 +19,7 @@ themeBtn.addEventListener("click", () => {
         themeDark = true;
     } else {
         bgImg.style.backgroundImage = 'url("img/day.jpg")';
-        nav.style.backgroundColor = "rgb(200, 220, 255)";
+        nav.style.backgroundColor = "rgb(200, 230, 255)";
         nav.style.color = "rgb(0, 100, 200)";
         themeDark = false;
     }
@@ -155,7 +155,6 @@ async function handleCredentialResponse(response) {
         profileImg.style.display = "block";
 
         alert(`Welcome ${data.user.name}! You are now logged in.`);
-
     }
 }
 
@@ -182,18 +181,16 @@ const searchInput = document.getElementById("searchInput");
 searchInput.addEventListener("input", () => {
     const query = searchInput.value.trim().toLowerCase();
 
-    // Loop through all gallery images
-    const galleryImages = document.querySelectorAll(".gallery img");
-    galleryImages.forEach(img => {
-        // Get the tags for this image
+    // Loop through all post wrappers
+    const postItems = document.querySelectorAll(".gallery .post-item");
+    postItems.forEach(wrapper => {
+
+        const img = wrapper.querySelector("img");
         const tags = img.dataset.tags ? img.dataset.tags.toLowerCase() : "";
 
         // If any tag matches the query, show it; otherwise, hide it
-        if (!query || tags.split(",").some(tag => tag.includes(query))) {
-            img.style.display = ""; // show
-        } else {
-            img.style.display = "none"; // hide
-        }
+        if (!query || tags.split(",").some(tag => tag.includes(query))) wrapper.style.display = "";
+        else wrapper.style.display = "none";
     });
 });
 
@@ -210,23 +207,112 @@ async function loadGallery() {
         const response = await fetch("http://localhost:3000/posts/feed");
         const posts = await response.json();
 
-        // Clear current gallery
+        // Clear gallery
         gallery.innerHTML = "";
 
+        // Get current user from localStorage
+        const currentUser = JSON.parse(localStorage.getItem("user"));
+
         posts.reverse().forEach(post => {
+
+            const wrapper = document.createElement("div");
+            wrapper.className = "post-item";
+
             const img = document.createElement("img");
             img.src = post.imageUrl;
             img.alt = "Gallery image";
+            img.dataset.id = post._id;
             img.dataset.author = post.author?.name || "@username";
             img.dataset.desc = post.description || "";
             img.dataset.tags = post.tags?.join(",") || "";
 
-            gallery.appendChild(img);
+            // Heart Button
+            const heart = document.createElement("div");
+            heart.className = "heart-btn";
+            heart.innerHTML = "♡";
+
+            if (currentUser && post.likes.includes(currentUser._id)) {
+                heart.classList.add("liked");
+                heart.innerHTML = "❤️";
+            }
+
+            const likesCount = document.createElement("span");
+            likesCount.className = "likes-count";
+            likesCount.textContent = post.likes.length;
+
+            // Heart click handler
+            heart.addEventListener("click", async (e) => {
+                e.stopPropagation();
+                const token = localStorage.getItem("authToken");
+                if (!token) return alert("You must be logged in to like posts.");
+
+                const liked = heart.classList.contains("liked");
+                const endpoint = liked ? "unlike" : "like";
+
+                const res = await fetch(`http://localhost:3000/posts/${post._id}/${endpoint}`, {
+                    method: "POST",
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+                const data = await res.json();
+
+                likesCount.textContent = data.likes;
+
+                if (liked) {
+                    heart.classList.remove("liked");
+                    heart.innerHTML = "♡";
+                } else {
+                    heart.classList.add("liked");
+                    heart.innerHTML = "❤️";
+                }
+            });
+
+            // DELETE button (only show if current user is the author)
+            if (currentUser && post.author && currentUser._id == post.author._id) {
+                const deleteBtn = document.createElement("div");
+                deleteBtn.className = "delete-btn";
+                deleteBtn.textContent = "X";
+                deleteBtn.title = "Delete this post";
+
+                deleteBtn.addEventListener("click", async (e) => {
+                    e.stopPropagation();
+                    if (!confirm("Are you sure you want to delete this post?")) return;
+
+                    const token = localStorage.getItem("authToken");
+                    if (!token) return alert("You must be logged in to delete posts.");
+
+                    try {
+                        const res = await fetch(`http://localhost:3000/posts/${post._id}`, {
+                            method: "DELETE",
+                            headers: { "Authorization": `Bearer ${token}` }
+                        });
+                        const data = await res.json();
+
+                        if (res.ok) {
+                            wrapper.remove();
+                            alert("Post deleted");
+                        } else {
+                            alert(data.message || "Failed to delete post.");
+                        }
+                    } catch (err) {
+                        console.error("Delete failed: ", err);
+                        alert("Error deleting post.");
+                    }
+                });
+
+                wrapper.appendChild(deleteBtn);
+            }
+
+            wrapper.appendChild(img);
+            wrapper.appendChild(heart);
+            wrapper.appendChild(likesCount);
+            gallery.appendChild(wrapper);
         });
+
     } catch (err) {
         console.error("Error loading gallery:", err);
     }
 }
+
 
 // Initial page load logic for gallery/auth
 
@@ -254,7 +340,6 @@ window.addEventListener("load", () => {
         profileImg.style.display = "block";
     }
 });
-
 
 /*
  * Upload Overlay
