@@ -11,36 +11,30 @@
 
         <nav>
             <div class = "nav-container">
-
                 <div class = "nav-top">
                     <span class = "nav-left">Animation Gallery</span>
-
                     <div class = "nav-right">
-                        
                         <img src = "img/darkmode.png" class = "nav-icon" id = "themeBtn" alt = "Light/Dark Mode">
                         <img src = "img/upload.png" class = "nav-icon" id = "newPost" alt = "Upload a GIF">
                         <img src = "img/profile.png" class = "nav-icon" id = "profile">
 
-
+                        <!-- Google Sign-In -->
                         <div id="g_id_onload"
                             data-client_id = "369873749950-tcuicc0glg37lth6d31h2ofoo6ej1i7t.apps.googleusercontent.com"
                             data-callback = "handleCredentialResponse"
                             data-auto_prompt = "false">
                         </div>
-                        <!-- <div id="g_id_onload"
-                            data-client_id = "369873749950-tcuicc0glg37lth6d31h2ofoo6ej1i7t.apps.googleusercontent.com"
-                            data-callback = "handleCredentialResponse"
-                            data-login_uri = "http://localhost:3000/auth/google"
-                            data-auto_prompt = "false">
-                        </div> -->
+
                         <div class="g_id_signin"
-                        data-type="standard"
-                        data-size="large"
-                        data-theme="outline"
-                        data-text="sign_in_with"
-                        data-shape="rectangular"
-                        data-logo_alignment="left">
+                            data-type="standard"
+                            data-size="large"
+                            data-theme="outline"
+                            data-text="sign_in_with"
+                            data-shape="rectangular"
+                            data-logo_alignment="left">
                         </div>
+                        <!-- End Google Sign-In -->
+                         
                     </div>
                 </div>
                 <div class="nav-bottom">
@@ -50,7 +44,8 @@
         </nav>
 
         <!-- GALLERY -->
-         <div id = "bg-layer"></div>
+
+        <div id = "bg-layer"></div>
 
         <main>
             <div class="gallery" id = "gallery"></div>
@@ -112,9 +107,7 @@
                         <span class = "tag">#blah3</span>
                     </div>
                 </div>
-
             </div>
-            
         </div>
         <script src="https://accounts.google.com/gsi/client" async defer></script>
         <script type = "text/javascript" src = "app.js"></script>

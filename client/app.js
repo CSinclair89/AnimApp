@@ -238,7 +238,7 @@ async function loadGallery() {
 
             const likesCount = document.createElement("span");
             likesCount.className = "likes-count";
-            likesCount.textContent = post.likes.length;
+            likesCount.textContent = post.likes.length > 0 ? post.likes.length : "";
 
             // Heart click handler
             heart.addEventListener("click", async (e) => {
@@ -255,7 +255,7 @@ async function loadGallery() {
                 });
                 const data = await res.json();
 
-                likesCount.textContent = data.likes;
+                likesCount.textContent = data.likes > 0 ? data.likes : "";
 
                 if (liked) {
                     heart.classList.remove("liked");
@@ -266,7 +266,7 @@ async function loadGallery() {
                 }
             });
 
-            // DELETE button (only show if current user is the author)
+            // Delete Button
             if (currentUser && post.author && currentUser._id == post.author._id) {
                 const deleteBtn = document.createElement("div");
                 deleteBtn.className = "delete-btn";
@@ -301,21 +301,17 @@ async function loadGallery() {
 
                 wrapper.appendChild(deleteBtn);
             }
-
             wrapper.appendChild(img);
             wrapper.appendChild(heart);
             wrapper.appendChild(likesCount);
             gallery.appendChild(wrapper);
         });
-
     } catch (err) {
         console.error("Error loading gallery:", err);
     }
 }
 
-
 // Initial page load logic for gallery/auth
-
 window.addEventListener("load", () => {
 
     // 1.) Load the gallery
@@ -325,7 +321,7 @@ window.addEventListener("load", () => {
         console.error("loadGallery() failed on startup:", err);
     }
 
-    // 2.) Some Google Auth stuff to check if user is signed in. If so, hide the sign-in button.
+    // 2.) Some Google Auth stuff to check if user is signed in. If so, hide sign-in button.
     let user = null;
     try {
         user = JSON.parse(localStorage.getItem("user"));

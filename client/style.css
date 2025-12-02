@@ -140,17 +140,16 @@ main { padding-top: 140px; }
 .post-item {
     position: relative;
     display: inline-block;
-    margin: 10px;
 }
 
 .delete-btn {
     position: absolute;
-    top: 5px;
-    left: 5px;
+    top: 6px;
+    left: 6px;
     background: rgba(255, 0, 0, 0.8);
     color: white;
     font-weight: bold;
-    padding: 2px 6px;
+    padding: 2px 8px;
     border-radius: 4px;
     cursor: pointer;
     z-index: 10;
@@ -161,23 +160,27 @@ main { padding-top: 140px; }
 
 .heart-btn {
     position: absolute;
-    top: 8px;
-    right: 8px;
-    font-size: 24px;
+    bottom: -5px;
+    left: 6px;
+    font-size: 40px;
     cursor: pointer;
     user-select: none;
 }
 
 .heart-btn.liked {
     color: red;
+    bottom: 6px;
+    left: 4px;
+    font-size: 24px;
 }
 
 .likes-count {
     position: absolute;
-    top: 40px;
-    right: 12px;
+    bottom: 9px;
+    left: 40px;
     color: white;
-    text-shadow: 0 0 3px black;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px black;
 }
 
 /*
