@@ -24,7 +24,7 @@ This repository is intended to serve as a webdev sandbox as I try to build out a
 
 #### Functionality Items:
 1. [ ] Server-side search bar
-2. [ ] Integrate Munter library for large uploads
+2. [ ] Integrate Multer library for large uploads
 3. [ ] Utilize prefetching for full res GIFs
 4. [ ] GIF compression/conversion to more optimal filetype?
 5. [ ] Algorithm for main gallery
