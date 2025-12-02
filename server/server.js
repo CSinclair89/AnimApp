@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/db");
+const path = require("path");
 
 const authRoutes = require("./routes/auth");
 const postRoutes = require("./routes/posts");
@@ -19,7 +20,6 @@ app.get("/", (req, res) => {
 });
 
 // Front-End
-const path = require("path");
 app.use(express.static(path.join(__dirname, "../client")));
 
 // Connect DB

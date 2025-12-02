@@ -1,61 +1,37 @@
+/*************************/
+/*        NAV BAR        */
+/*************************/
+
 /*
- * Main Gallery
+ * Theme Button / Background
  */
 
-async function loadGallery() {
-    try {
-        const response = await fetch("http://localhost:3000/posts/feed");
-        const posts = await response.json();
+const themeBtn = document.getElementById("themeBtn");
+const bgImg = document.getElementById("bg-layer");
+const nav = document.querySelector("nav");
+let themeDark = false;
 
-        // Clear current gallery
-        gallery.innerHTML = "";
-
-        posts.reverse().forEach(post => {
-            const img = document.createElement("img");
-            img.src = post.imageUrl;
-            img.alt = "Gallery image";
-            img.dataset.author = post.author?.name || "@username";
-            img.dataset.desc = post.description || "";
-            img.dataset.tags = post.tags?.join(",") || "";
-
-            gallery.appendChild(img);
-        });
-    } catch (err) {
-        console.error("Error loading gallery:", err);
+themeBtn.addEventListener("click", () => {
+    if (!themeDark) {
+        bgImg.style.backgroundImage = 'url("img/night.jpg")';
+        nav.style.backgroundColor = "black";
+        nav.style.color = "white";
+        themeDark = true;
+    } else {
+        bgImg.style.backgroundImage = 'url("img/day.jpg")';
+        nav.style.backgroundColor = "rgb(200, 220, 255)";
+        nav.style.color = "rgb(0, 100, 200)";
+        themeDark = false;
     }
-}
-
-// Load gallery on page load
-window.addEventListener("DOMContentLoaded", () => {
-    loadGallery();
 });
 
-/*
- * Search Bar
- */
-
-const searchInput = document.getElementById("searchInput");
-
-searchInput.addEventListener("input", () => {
-    const query = searchInput.value.trim().toLowerCase();
-
-    // Loop through all gallery images
-    const galleryImages = document.querySelectorAll(".gallery img");
-    galleryImages.forEach(img => {
-        // Get the tags for this image
-        const tags = img.dataset.tags ? img.dataset.tags.toLowerCase() : "";
-
-        // If any tag matches the query, show it; otherwise, hide it
-        if (!query || tags.split(",").some(tag => tag.includes(query))) {
-            img.style.display = ""; // show
-        } else {
-            img.style.display = "none"; // hide
-        }
-    });
-});
+window.addEventListener("scroll", () => {
+    const offset = window.scrollY * -0.3;
+    bgImg.style.transform = `translateY(${offset}px)`;
+})
 
 /*
- *  "New post" Button
+ * Upload Button
  */
 
 const WIDTH = 500;
@@ -103,9 +79,9 @@ submitBtn.addEventListener("click", async () => {
 
     const reader = new FileReader();
     reader.onload = async (e) => {
-        const base64Image = e.target.result; // base64 string
+        const base64Image = e.target.result;
 
-        // Validate image dimensions
+        // Confirm image is 500x500px
         const img = new Image();
         img.onload = async () => {
             if (img.width != WIDTH || img.height != HEIGHT) {
@@ -133,7 +109,7 @@ submitBtn.addEventListener("click", async () => {
                 const postData = await res.json();
                 console.log("Post created:", postData);
 
-                // Update gallery DOM
+                // Update the gallery
                 const galleryImg = document.createElement("img");
                 galleryImg.src = base64Image;
                 galleryImg.alt = "Gallery image";
@@ -155,8 +131,129 @@ submitBtn.addEventListener("click", async () => {
 });
 
 /*
- * Google Sign-In Button
+ * JWT Credential
  */
+
+async function handleCredentialResponse(response) {
+    console.log("Google raw response:", response);
+
+    // Only send credential to backend for authentication once
+    const serverResponse = await fetch("http://localhost:3000/auth/google", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ credential: response.credential })
+    });
+
+    const data = await serverResponse.json();
+    console.log("Auth response from backend:", data);
+
+    if (data && data.token) {
+        // Save JWT in localStorage
+        localStorage.setItem("authToken", data.token);
+        localStorage.setItem("user", JSON.stringify(data.user));
+        gSignInButton.style.display = "none";
+        profileImg.style.display = "block";
+
+        alert(`Welcome ${data.user.name}! You are now logged in.`);
+
+    }
+}
+
+const gSignInButton = document.querySelector(".g_id_signin");
+const profileImg = document.getElementById("profile");
+
+// Check if user is already logged in
+window.addEventListener("DOMContentLoaded", () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+        alert(`Welcome back, ${user.name}!`);
+        // Optionally hide the sign-in button
+        gSignInButton.style.display = "none";
+        profileImg.style.display = "block";
+    }
+});
+
+/*
+ * Search Bar
+ */
+
+const searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("input", () => {
+    const query = searchInput.value.trim().toLowerCase();
+
+    // Loop through all gallery images
+    const galleryImages = document.querySelectorAll(".gallery img");
+    galleryImages.forEach(img => {
+        // Get the tags for this image
+        const tags = img.dataset.tags ? img.dataset.tags.toLowerCase() : "";
+
+        // If any tag matches the query, show it; otherwise, hide it
+        if (!query || tags.split(",").some(tag => tag.includes(query))) {
+            img.style.display = ""; // show
+        } else {
+            img.style.display = "none"; // hide
+        }
+    });
+});
+
+/**************************/
+/*          BODY          */
+/**************************/
+
+/*
+ * Main Gallery
+ */
+
+async function loadGallery() {
+    try {
+        const response = await fetch("http://localhost:3000/posts/feed");
+        const posts = await response.json();
+
+        // Clear current gallery
+        gallery.innerHTML = "";
+
+        posts.reverse().forEach(post => {
+            const img = document.createElement("img");
+            img.src = post.imageUrl;
+            img.alt = "Gallery image";
+            img.dataset.author = post.author?.name || "@username";
+            img.dataset.desc = post.description || "";
+            img.dataset.tags = post.tags?.join(",") || "";
+
+            gallery.appendChild(img);
+        });
+    } catch (err) {
+        console.error("Error loading gallery:", err);
+    }
+}
+
+// Initial page load logic for gallery/auth
+
+window.addEventListener("load", () => {
+
+    // 1.) Load the gallery
+    try {
+        loadGallery();
+    } catch (err) {
+        console.error("loadGallery() failed on startup:", err);
+    }
+
+    // 2.) Some Google Auth stuff to check if user is signed in. If so, hide the sign-in button.
+    let user = null;
+    try {
+        user = JSON.parse(localStorage.getItem("user"));
+    } catch (e) {
+        console.warn("Could not parse user from localStorage:", e);
+    }
+
+    if (user && gSignInButton) {
+
+        // Hide GIS sign-in and replace with profile img
+        gSignInButton.style.display = "none";
+        profileImg.style.display = "block";
+    }
+});
 
 
 /*
@@ -165,6 +262,7 @@ submitBtn.addEventListener("click", async () => {
 
 const uploadOverlay = document.getElementById("uploadOverlay");
 const uploadCloseBtn = document.getElementById("uploadCloseBtn");
+const newPost = document.getElementById("newPost");
 
 // Open Upload Utility
 let newpost_mouseDownOverlay = false;
@@ -258,68 +356,3 @@ galleryOverlay.addEventListener("mouseup", (e) => {
 document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") galleryOverlay.style.display = "none";
 });
-
-
-
-/*
- * JWT Credential
- */
-async function handleCredentialResponse(response) {
-    console.log("Google raw response:", response);
-
-    // Only send credential to backend for authentication once
-    const serverResponse = await fetch("http://localhost:3000/auth/google", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ credential: response.credential })
-    });
-
-    const data = await serverResponse.json();
-    console.log("Auth response from backend:", data);
-
-    if (data && data.token) {
-        // Save JWT in localStorage
-        localStorage.setItem("authToken", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
-
-        alert(`Welcome ${data.user.name}! You are now logged in.`);
-
-        // Call Posts API
-        createTestPost(data.token); 
-    }
-}
-
-const gSignInButton = document.querySelector(".g_id_signin");
-
-// On page load, check if user is already logged in
-window.addEventListener("DOMContentLoaded", () => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user) {
-        alert(`Welcome back, ${user.name}!`);
-        // Optionally hide the sign-in button
-        gSignInButton.style.display = "none";
-    }
-});
-
-async function createTestPost(token) {
-    try {
-        const response = await fetch("http://localhost:3000/posts/create", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                imageUrl: "example.gif",
-                description: "Sample GIF",
-                tags: ["fun", "party"]
-            })
-        });
-
-        const data = await response.json();
-        console.log("Create post response:", data);
-        alert("Test post created! Check console for details.");
-    } catch (err) {
-        console.error("Error creating post:", err);
-    }
-}
